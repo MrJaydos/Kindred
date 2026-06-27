@@ -42,6 +42,7 @@ final class BattleViewModel: ObservableObject {
     @Published private(set) var windowTimeRemaining: Double = 0
     @Published private(set) var isVoided: Bool = false
     @Published private(set) var exchanges: [ExchangeRecord] = []
+    @Published private(set) var timingFeedback: String? = nil
 
     // MARK: Immutable identity
 
@@ -122,6 +123,11 @@ final class BattleViewModel: ObservableObject {
         let sweetMs   = Int(sweetSpotCenter * Double(config.structure.windowMs))
         timingTapOffsetMs = elapsedMs - sweetMs
         hasTimingTapped = true
+
+        // Quality label for the UI — ratios relative to sweet-spot half-width
+        let halfWidthMs = (config.skill.sweetSpotBaseMs + playerStats.speed * config.skill.sweetSpotPerSpeedMs) / 2
+        let ratio = abs(Double(timingTapOffsetMs)) / max(1, halfWidthMs)
+        timingFeedback = ratio <= 0.4 ? "Perfect!" : ratio <= 1.0 ? "Good" : ratio <= 1.5 ? "Late" : "Miss"
     }
 
     func handleMashTap() {
@@ -161,6 +167,7 @@ final class BattleViewModel: ObservableObject {
         // Reset exchange state
         playerTapCount    = 0
         hasTimingTapped   = false
+        timingFeedback    = nil
         timingTapOffsetMs = config.structure.windowMs   // default miss
         markerPosition    = 0
         windowOpenDate    = Date()

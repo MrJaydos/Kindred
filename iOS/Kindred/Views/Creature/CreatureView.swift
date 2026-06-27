@@ -2,6 +2,7 @@ import SwiftUI
 
 struct CreatureView: View {
     @EnvironmentObject private var game: GameViewModel
+    @State private var bounceTrigger: Int = 0
 
     var body: some View {
         ZStack(alignment: .topTrailing) {
@@ -54,7 +55,7 @@ struct CreatureView: View {
                     LineageBoonBadge(boon: game.lineage.totalBoon)
                 }
 
-                CareActionsView()
+                CareActionsView(onAction: { bounceTrigger += 1 })
                     .padding(.horizontal, KSpacing.md)
 
                 Spacer(minLength: KSpacing.xxl)
@@ -67,7 +68,7 @@ struct CreatureView: View {
     // MARK: - Creature stage area
 
     private var creatureStage: some View {
-        CreatureRenderer(creature: game.creature)
+        CreatureRenderer(creature: game.creature, bounceTrigger: bounceTrigger)
             .frame(width: 220, height: 220)
     }
 

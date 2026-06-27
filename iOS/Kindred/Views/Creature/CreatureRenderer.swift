@@ -124,8 +124,11 @@ struct CreatureGeometry {
 
 struct CreatureRenderer: View {
     let creature: Creature
+    var bounceTrigger: Int = 0
+
     @State private var breathePhase: Double = 0
     @State private var blinkPhase: Double = 0
+    @State private var isBouncing: Bool = false
 
     private var geo: CreatureGeometry { CreatureGeometry.from(creature: creature) }
 
@@ -165,7 +168,17 @@ struct CreatureRenderer: View {
                 drawEyes(ctx: ctx, cx: cx, cy: cy + breathe, width: bW, height: bH, geo: geo, blink: blinkPhase)
             }
         }
+        .scaleEffect(isBouncing ? 1.07 : 1.0)
+        .animation(.spring(response: 0.22, dampingFraction: 0.34), value: isBouncing)
         .onAppear { startAnimations() }
+        .onChange(of: bounceTrigger) { _, new in
+            guard new > 0 else { return }
+            isBouncing = true
+            Task {
+                try? await Task.sleep(for: .milliseconds(180))
+                isBouncing = false
+            }
+        }
     }
 
     // MARK: Body path

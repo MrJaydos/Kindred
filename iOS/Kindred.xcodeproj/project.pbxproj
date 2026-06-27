@@ -18,6 +18,7 @@
 		3583C71762CEBF5822255D5A /* EvolutionConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D2DA1DD7281C5A7A7F1CA32 /* EvolutionConfig.swift */; };
 		3C6C012F54AE60D12248C298 /* MockPeerTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A89CB2EDD771E769C8935DE /* MockPeerTransport.swift */; };
 		406F757487F9254F03F7A818 /* DebugOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D458688AB4CEC5656EF694D /* DebugOverlayView.swift */; };
+		46AF1C9FBB1103C7A5697B29 /* BattleRulesCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF79358B7A86DA289006CA8 /* BattleRulesCard.swift */; };
 		4781E31F8A28CCC353AA27D6 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354F0EEF1C547EFD59130F46 /* AppEnvironment.swift */; };
 		598E73D03CE8957DB9A6BA63 /* TamerDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A7110D8EF0E786871BBD88 /* TamerDetailView.swift */; };
 		5EC02A36FEED62ABF6ABBC35 /* Lineage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146113FFFD4CB0F0F74D585F /* Lineage.swift */; };
@@ -35,6 +36,7 @@
 		B66E60D41145E2EDDD7B8BC4 /* CreatureStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB537BB1EA60F8B5B2D39513 /* CreatureStore.swift */; };
 		C427AD198A8E451BA3C2DC75 /* Egg.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3AFE9D91A0BED66E4097B0A /* Egg.swift */; };
 		C83334A6ABA74829C9655BEF /* CreatureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FD4482F48C86C207E7FEAA /* CreatureView.swift */; };
+		CB0CBA33889E221CD32EFFA1 /* CareParticleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A093FD5D6B431FAD73446332 /* CareParticleView.swift */; };
 		CCDDDC6E3D5AD3D3C74A4F25 /* battle_config.json in Resources */ = {isa = PBXBuildFile; fileRef = EF55BA42B9F744E3FF2E6750 /* battle_config.json */; };
 		CF2C796FF531073FDE245667 /* BattleState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62443747729D526730BB2C6B /* BattleState.swift */; };
 		D5EF8500A085805DB16C621A /* BehaviorSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B698112D92A438B9AE64B6E2 /* BehaviorSource.swift */; };
@@ -78,6 +80,7 @@
 		6D458688AB4CEC5656EF694D /* DebugOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugOverlayView.swift; sourceTree = "<group>"; };
 		70DE74BF6E30E6811ACB4D39 /* Tokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tokens.swift; sourceTree = "<group>"; };
 		776F85584ADFADA9DD5079BB /* Kindred.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Kindred.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7BF79358B7A86DA289006CA8 /* BattleRulesCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleRulesCard.swift; sourceTree = "<group>"; };
 		7DD287C2B0B8A5762BCE0444 /* MockBehaviorSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockBehaviorSource.swift; sourceTree = "<group>"; };
 		801CF7D67B7FA2A58F977037 /* CareActionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareActionsView.swift; sourceTree = "<group>"; };
 		899BFB5BE722421754D4D9F2 /* PeerTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeerTransport.swift; sourceTree = "<group>"; };
@@ -86,6 +89,7 @@
 		9AA20BEC98A725F3432452FD /* CreatureRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatureRenderer.swift; sourceTree = "<group>"; };
 		9D481E3AC5FC2DF6A0631D86 /* PermissionPrimingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionPrimingView.swift; sourceTree = "<group>"; };
 		9DB8C155DDC7C5D955F77733 /* BattleResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleResultView.swift; sourceTree = "<group>"; };
+		A093FD5D6B431FAD73446332 /* CareParticleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareParticleView.swift; sourceTree = "<group>"; };
 		A18FEE4293EC8359C15702DB /* CareEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareEngine.swift; sourceTree = "<group>"; };
 		A2FD4482F48C86C207E7FEAA /* CreatureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatureView.swift; sourceTree = "<group>"; };
 		A3D37A9B6A3BFC587A8C3C42 /* KindredTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = KindredTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -155,6 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				9DB8C155DDC7C5D955F77733 /* BattleResultView.swift */,
+				7BF79358B7A86DA289006CA8 /* BattleRulesCard.swift */,
 				2526D94D3420B0D864B85604 /* BattleView.swift */,
 				2D5853824A6CC57FF99E92A5 /* ExchangeInputView.swift */,
 			);
@@ -203,6 +208,7 @@
 			isa = PBXGroup;
 			children = (
 				801CF7D67B7FA2A58F977037 /* CareActionsView.swift */,
+				A093FD5D6B431FAD73446332 /* CareParticleView.swift */,
 				9AA20BEC98A725F3432452FD /* CreatureRenderer.swift */,
 				A2FD4482F48C86C207E7FEAA /* CreatureView.swift */,
 			);
@@ -376,12 +382,14 @@
 				147D10FEC487C92074EE5567 /* BattleConfig.swift in Sources */,
 				B40104407C6F05600C962725 /* BattleResolver.swift in Sources */,
 				91EC7B3A39140DF1341315C7 /* BattleResultView.swift in Sources */,
+				46AF1C9FBB1103C7A5697B29 /* BattleRulesCard.swift in Sources */,
 				CF2C796FF531073FDE245667 /* BattleState.swift in Sources */,
 				DB9D265DA88E8B5D1C6C5C24 /* BattleView.swift in Sources */,
 				712C6F6CE3129627E06502CA /* BattleViewModel.swift in Sources */,
 				D5EF8500A085805DB16C621A /* BehaviorSource.swift in Sources */,
 				3138C48F9637BB8698E949A2 /* CareActionsView.swift in Sources */,
 				2742624FFB65816FFD1A2288 /* CareEngine.swift in Sources */,
+				CB0CBA33889E221CD32EFFA1 /* CareParticleView.swift in Sources */,
 				F8890B2BEEC87633CD4AF87D /* ContentRootView.swift in Sources */,
 				E79737A8BE2F0900FB591133 /* Creature.swift in Sources */,
 				F6351A55D36D91AA6518F7E5 /* CreatureRenderer.swift in Sources */,

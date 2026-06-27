@@ -9,6 +9,13 @@ enum GamePhase {
     case eggWaiting(Egg) // creature just died, egg is ready to hatch
 }
 
+// MARK: - Supporting types
+
+struct TransitionBanner: Equatable {
+    let text: String
+    let branch: Branch?
+}
+
 // MARK: - Tamer name generator
 
 private let adjectives = ["Swift","Quiet","Bold","Grim","Wild","Calm","Stern","Dusk","Iron","Pale"]
@@ -36,6 +43,9 @@ final class GameViewModel: ObservableObject {
     @Published var showBattle: Bool = false
     @Published var activeBattle: BattleViewModel?
 
+    // Stage transition banner — shown briefly in the UI on promotion
+    @Published private(set) var transitionBanner: TransitionBanner? = nil
+
     // Debug controls — only meaningful in DEBUG builds but present in release (hidden by view)
     @Published var debugTimeScale: Double = 60     // game-minutes per real-second
     @Published var showDebugOverlay: Bool = false
@@ -49,6 +59,7 @@ final class GameViewModel: ObservableObject {
     private var lastTickDate: Date = Date()
     private var careMistakesThisStage: Int = 0
     private var gameDayAccumulator: Double = 0
+    private(set) var gameDaysAlive: Double = 0   // game-time days since hatch (respects debugTimeScale)
 
     // MARK: Init
 
@@ -97,6 +108,12 @@ final class GameViewModel: ObservableObject {
         checkStageTransition()
     }
 
+    /// Push game days past the natural-death threshold (debug panel use only).
+    func debugForceDeath() {
+        gameDaysAlive = env.evolutionConfig.lifespanDays.naturalMax + 1
+        checkStageTransition()
+    }
+
     /// Hatch a new creature from the waiting egg.
     func hatchEgg() {
         guard case .eggWaiting(let egg) = phase else { return }
@@ -106,6 +123,7 @@ final class GameViewModel: ObservableObject {
         creature = newCreature
         careMistakesThisStage = 0
         awakeHoursSinceAdult = 0
+        gameDaysAlive = 0
         pendingCall = nil
         phase = .living
         startTimer()
@@ -152,9 +170,10 @@ final class GameViewModel: ObservableObject {
             env.behaviorSource.recordCareMistake()
         }
 
-        // Accumulate game time for daily signal tick
-        gameDayAccumulator += gameMinutesElapsed
+        // Accumulate game time
         let gameMinutesPerDay = 1440.0
+        gameDayAccumulator += gameMinutesElapsed
+        gameDaysAlive      += gameMinutesElapsed / gameMinutesPerDay
         if gameDayAccumulator >= gameMinutesPerDay {
             gameDayAccumulator -= gameMinutesPerDay
             let signals = env.behaviorSource.currentSignals
@@ -174,6 +193,7 @@ final class GameViewModel: ObservableObject {
         guard creature.isAlive else { return }
         let event = evolutionEngine.evaluateStage(
             creature: &creature,
+            gameDaysAlive: gameDaysAlive,
             careMistakesThisStage: careMistakesThisStage,
             awakeHoursSinceAdult: awakeHoursSinceAdult
         )
@@ -181,18 +201,34 @@ final class GameViewModel: ObservableObject {
 
         lastEvolutionEvent = event
         switch event {
-        case .stagePromotion(_, let to, _):
+        case .stagePromotion(_, let to, let branch):
             if to == .adult {
-                // Reset mistakes and awake hours on adult transition
                 careMistakesThisStage = 0
-                awakeHoursSinceAdult = 0
+                awakeHoursSinceAdult  = 0
                 env.behaviorSource.resetCareMistakes()
             }
+            showTransitionBanner(stage: to, branch: branch)
         case .earlyDeath(let egg), .naturalDeath(let egg):
             timer?.invalidate()
             timer = nil
             lineage.record(creature: creature, boonContributed: egg.kind.boon)
             phase = .eggWaiting(egg)
+        }
+    }
+
+    private func showTransitionBanner(stage: Stage, branch: Branch?) {
+        let text: String
+        switch stage {
+        case .blob:     text = "It hatched."
+        case .juvenile: text = "Something is changing."
+        case .adult:    text = "It has become itself."
+        case .apex:     text = "Something rare. Hard-earned."
+        case .egg:      return
+        }
+        transitionBanner = TransitionBanner(text: text, branch: branch)
+        Task {
+            try? await Task.sleep(for: .seconds(3))
+            self.transitionBanner = nil
         }
     }
 
@@ -331,4 +367,11 @@ final class GameViewModel: ObservableObject {
     }
 
     var stageCareMistakes: Int { careMistakesThisStage }
+
+    /// 0 = fine, 1 = caution (≥ 4 mistakes), 2 = danger (≥ 8 mistakes)
+    var careWarningLevel: Int {
+        if careMistakesThisStage >= 8  { return 2 }
+        if careMistakesThisStage >= 4  { return 1 }
+        return 0
+    }
 }

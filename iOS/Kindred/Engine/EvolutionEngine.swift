@@ -46,17 +46,17 @@ final class EvolutionEngine {
     // MARK: - Stage Evaluation
 
     /// Check whether the creature should advance a stage or die.
-    /// Called once per real second by GameViewModel; time scaling is applied by the caller.
+    /// `gameDaysAlive` is tracked by GameViewModel and already reflects debugTimeScale.
+    /// Egg hatch uses real time (always ~60 s) so the incubation moment feels tangible.
     func evaluateStage(
         creature: inout Creature,
+        gameDaysAlive: Double,
         careMistakesThisStage: Int,
         awakeHoursSinceAdult: Double
     ) -> EvolutionEvent? {
         guard creature.isAlive else { return nil }
 
-        let now = Date()
-        let realSecondsAlive = now.timeIntervalSince(creature.birthDate)
-        let gameDaysAlive    = realSecondsAlive / 86400   // in real mode; caller applies scale
+        let realSecondsAlive = Date().timeIntervalSince(creature.birthDate)
 
         switch creature.stage {
         case .egg:

@@ -38,6 +38,18 @@ struct CreatureGeometry {
                 eyeOpenness: 0.5,
                 spikeCount: 0, auraOpacity: 0
             )
+        case .juvenile:
+            // Subtle tint toward dominant axis — hints at eventual form without declaring it
+            let dominantColor = dominantAxisColor(traits: traits)
+            return CreatureGeometry(
+                bodyWidth: 0.50, bodyHeight: 0.50,
+                angularity: 0.08, asymmetry: 0.08,
+                primaryColor: Color(white: 0.80).blended(with: dominantColor, fraction: 0.18),
+                accentColor: Color(white: 0.65),
+                eyeScale: 0.65 + (traits.bond / 100) * 0.35,
+                eyeOpenness: 0.55,
+                spikeCount: 0, auraOpacity: 0
+            )
         default:
             return geometry(for: branch ?? .drifter, traits: traits, isApex: creature.stage == .apex)
         }
@@ -269,6 +281,18 @@ struct CreatureRenderer: View {
     }
 }
 
+// MARK: - Dominant axis tint (juvenile hint)
+
+private func dominantAxisColor(traits: TraitVector) -> Color {
+    let axes: [(Double, Color)] = [
+        (traits.vigor,        KColor.branchSwift),
+        (traits.nocturnality, KColor.branchFeral),
+        (traits.bond,         KColor.branchBonded),
+        (traits.discipline,   KColor.branchStalwart)
+    ]
+    return axes.max(by: { $0.0 < $1.0 })?.1 ?? KColor.branchDrifter
+}
+
 // MARK: - Hex color (local duplicate-safe)
 private extension Color {
     init(hex: String) {
@@ -279,5 +303,20 @@ private extension Color {
         let g = Double((int >> 8)  & 0xFF) / 255
         let b = Double(int         & 0xFF) / 255
         self.init(red: r, green: g, blue: b)
+    }
+
+    func blended(with other: Color, fraction: Double) -> Color {
+        let f = max(0, min(1, fraction))
+        let resolved  = UIColor(self)
+        let resolvedO = UIColor(other)
+        var r1: CGFloat = 0; var g1: CGFloat = 0; var b1: CGFloat = 0; var a1: CGFloat = 0
+        var r2: CGFloat = 0; var g2: CGFloat = 0; var b2: CGFloat = 0; var a2: CGFloat = 0
+        resolved.getRed(&r1, green: &g1, blue: &b1, alpha: &a1)
+        resolvedO.getRed(&r2, green: &g2, blue: &b2, alpha: &a2)
+        return Color(
+            red:   Double(r1) * (1 - f) + Double(r2) * f,
+            green: Double(g1) * (1 - f) + Double(g2) * f,
+            blue:  Double(b1) * (1 - f) + Double(b2) * f
+        )
     }
 }

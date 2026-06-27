@@ -81,6 +81,9 @@ struct DebugOverlayView: View {
                     .frame(width: 40)
                 Slider(value: $game.debugTimeScale, in: 1...3600, step: 1)
             }
+            Text("Game days: \(String(format: "%.2f", game.gameDaysAlive))")
+                .font(.system(size: 10, design: .monospaced))
+                .foregroundStyle(KColor.textMuted)
             Text("Awake hrs (adult): \(String(format: "%.1f", game.awakeHoursSinceAdult)) / 72")
                 .font(.system(size: 10, design: .monospaced))
                 .foregroundStyle(KColor.textMuted)
@@ -114,6 +117,7 @@ struct DebugOverlayView: View {
         VStack(spacing: KSpacing.xs) {
             DebugButton("Force daily tick")  { game.debugForceDailyTick() }
             DebugButton("Force stage check") { game.debugForceStageCheck() }
+            DebugButton("Force death")       { game.debugForceDeath() }
         }
     }
 

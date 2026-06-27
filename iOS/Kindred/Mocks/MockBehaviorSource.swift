@@ -1,4 +1,5 @@
 import Foundation
+import Combine
 
 /// Preset behavior profiles for simulator testing.
 enum BehaviorPreset: String, CaseIterable, Identifiable {
@@ -28,18 +29,18 @@ enum BehaviorPreset: String, CaseIterable, Identifiable {
 }
 
 @MainActor
-final class MockBehaviorSource: BehaviorSource {
-    var selectedPreset: BehaviorPreset = .balanced {
-        didSet { applyPreset() }
+final class MockBehaviorSource: BehaviorSource, ObservableObject {
+    @Published var selectedPreset: BehaviorPreset = .balanced {
+        didSet { recompute() }
     }
 
-    // Manual override sliders — non-zero means the slider overrides the preset for that axis
-    var manualSteps: Double = -1
-    var manualActiveEnergy: Double = -1
-    var manualNightActivity: Double = -1
-    var manualSleepRegularity: Double = -1
-    var manualInteractionCount: Double = -1
-    var manualResponseLatency: Double = -1
+    // -1 means "use preset value"; 0–100 means manual override
+    @Published var manualSteps:            Double = -1 { didSet { recompute() } }
+    @Published var manualActiveEnergy:     Double = -1 { didSet { recompute() } }
+    @Published var manualNightActivity:    Double = -1 { didSet { recompute() } }
+    @Published var manualSleepRegularity:  Double = -1 { didSet { recompute() } }
+    @Published var manualInteractionCount: Double = -1 { didSet { recompute() } }
+    @Published var manualResponseLatency:  Double = -1 { didSet { recompute() } }
 
     private(set) var currentSignals: DailySignals
     private(set) var careMistakesThisStage: Int = 0
@@ -48,25 +49,18 @@ final class MockBehaviorSource: BehaviorSource {
         currentSignals = BehaviorPreset.balanced.signals
     }
 
-    func recordCareMistake() {
-        careMistakesThisStage += 1
-    }
+    func recordCareMistake() { careMistakesThisStage += 1 }
+    func resetCareMistakes() { careMistakesThisStage  = 0 }
 
-    func resetCareMistakes() {
-        careMistakesThisStage = 0
-    }
-
-    // MARK: Private
-
-    private func applyPreset() {
+    private func recompute() {
         let base = selectedPreset.signals
         currentSignals = DailySignals(
-            steps:            manualSteps >= 0           ? manualSteps            : base.steps,
-            activeEnergy:     manualActiveEnergy >= 0    ? manualActiveEnergy     : base.activeEnergy,
-            nightActivityShare: manualNightActivity >= 0 ? manualNightActivity    : base.nightActivityShare,
-            sleepRegularity:  manualSleepRegularity >= 0 ? manualSleepRegularity  : base.sleepRegularity,
-            interactionCount: manualInteractionCount >= 0 ? manualInteractionCount : base.interactionCount,
-            responseLatency:  manualResponseLatency >= 0  ? manualResponseLatency  : base.responseLatency
+            steps:              manualSteps            >= 0 ? manualSteps            : base.steps,
+            activeEnergy:       manualActiveEnergy     >= 0 ? manualActiveEnergy     : base.activeEnergy,
+            nightActivityShare: manualNightActivity    >= 0 ? manualNightActivity    : base.nightActivityShare,
+            sleepRegularity:    manualSleepRegularity  >= 0 ? manualSleepRegularity  : base.sleepRegularity,
+            interactionCount:   manualInteractionCount >= 0 ? manualInteractionCount : base.interactionCount,
+            responseLatency:    manualResponseLatency  >= 0 ? manualResponseLatency  : base.responseLatency
         )
     }
 }

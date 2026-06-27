@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "signals": {
+    "steps":            { "feeds": "vigor",        "norm": { "type": "linear", "in": [0, 12000], "out": [0, 100] } },
+    "activeEnergy":     { "feeds": "vigor",        "norm": { "type": "baselineRatio", "out": [0, 100] } },
+    "nightActivity":    { "feeds": "nocturnality", "norm": { "type": "share", "window": [23, 4], "out": [0, 100] } },
+    "sleepRegularity":  { "feeds": "discipline",   "norm": { "type": "invVariance", "out": [0, 100] } },
+    "interactionCount": { "feeds": "bond",         "norm": { "type": "ratioToTarget", "target": 6, "out": [0, 100] } },
+    "responseLatency":  { "feeds": "bond",         "norm": { "type": "invLatency", "goodMs": 60000, "out": [0, 100] } }
+  },
+  "traits": {
+    "axes": ["vigor", "nocturnality", "bond", "discipline"],
+    "accumulation": "timeWeightedMean",
+    "recencyHalfLifeDays": 5,
+    "maxDailyDelta": 6
+  },
+  "careMistakes": {
+    "callWindowMinutes": 15,
+    "resetOnEvolution": true,
+    "earlyDeathThreshold": 20,
+    "emptyNeedDeathHours": 12
+  },
+  "stages": [
+    { "id": "egg",      "hatchSeconds": 60 },
+    { "id": "blob",     "afterHatch": true, "mattersForEvolution": false },
+    { "id": "juvenile", "reachDays": 1.0 },
+    { "id": "adult",    "reachDays": 3.5, "branchSelect": true },
+    { "id": "apex",     "minAwakeHours": 72, "gated": true }
+  ],
+  "lifespanDays": { "naturalMin": 18, "naturalMax": 24, "pausedDuringSleep": true },
+  "branchSelection": {
+    "order": ["neglectOverride", "dominantAxis", "fallback"],
+    "neglectOverride": { "neglectGte": 70, "careMistakesGte": 8, "branch": "DISTANT" },
+    "dominantAxis": {
+      "minValue": 55,
+      "minLeadOverSecond": 12,
+      "map": { "vigor": "SWIFT", "nocturnality": "FERAL", "bond": "BONDED", "discipline": "STALWART" }
+    },
+    "fallback": "DRIFTER",
+    "wildcardChance": 0.0
+  },
+  "apexGate": {
+    "minCareMistakesMax": 2,
+    "minWinRatio": 0.70,
+    "minBattles": 15,
+    "dominantAxisGte": 60,
+    "distantParallelApex": { "ignoresWinRatio": true, "ignoresCareMistakes": true }
+  },
+  "traitedEgg": {
+    "requireLivedPastLifespan": true,
+    "requireStageAtLeast": "adult",
+    "lifetimeCareMistakesMax": 4,
+    "boonByStage": { "adult": 1, "apex": 2 },
+    "boonCap": 6,
+    "boonEffects": { "evoGateBonusPctPerPoint": 5, "startingAxisNudgeMaxPerPoint": 0.5 }
+  }
+}

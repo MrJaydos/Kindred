@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "structure": { "exchanges": 5, "windowMs": 2500, "hpPoolMultiplier": 4, "orderBy": "speed" },
+  "statBranchBias": {
+    "SWIFT":    { "hp": 0.85, "attack": 1.05, "defense": 0.90, "speed": 1.30, "stamina": 1.05 },
+    "FERAL":    { "hp": 0.95, "attack": 1.30, "defense": 0.85, "speed": 1.10, "stamina": 0.95 },
+    "BONDED":   { "hp": 1.05, "attack": 1.00, "defense": 1.00, "speed": 1.00, "stamina": 1.20 },
+    "STALWART": { "hp": 1.30, "attack": 0.95, "defense": 1.25, "speed": 0.80, "stamina": 1.00 },
+    "DISTANT":  { "hp": 1.00, "attack": 0.95, "defense": 1.35, "speed": 0.90, "stamina": 0.95 },
+    "DRIFTER":  { "hp": 1.00, "attack": 1.00, "defense": 1.00, "speed": 1.00, "stamina": 1.00 }
+  },
+  "apexStatBump": 8,
+  "skill": {
+    "SKILL_CAP_OFFENSE": 0.40,
+    "SKILL_CAP_DEFENSE": 0.30,
+    "mashWeight": 0.20,
+    "timingWeight": 0.20,
+    "guardWeight": 0.30,
+    "maxMash": 12,
+    "staminaPerTap": 1,
+    "staminaRegenPerExchange": 3,
+    "sweetSpotBaseMs": 250,
+    "sweetSpotPerSpeedMs": 4
+  },
+  "damage": { "ATK_K": 6.0, "DEF_C": 12.0, "HP_SCALE": 1.0, "minDamage": 1 },
+  "crit": { "enabled": false, "chance": 0.0, "multiplier": 1.5 },
+  "netcode": {
+    "lockstep": true,
+    "shareSignedState": true,
+    "perExchangeStateHashCheck": true,
+    "voidOnMismatch": true
+  },
+  "outcome": {
+    "winnerAxisNudge": 0.5,
+    "loserDefenseNudge": 0.5,
+    "dailyImprintCap": 2.0
+  }
+}

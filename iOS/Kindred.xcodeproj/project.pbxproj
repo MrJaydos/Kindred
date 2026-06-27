@@ -11,6 +11,7 @@
 		099BCE7DCBF6D34F301B320B /* IntegrityChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 229D1343185563F1B80E89A1 /* IntegrityChecker.swift */; };
 		147D10FEC487C92074EE5567 /* BattleConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FACED82A6DFEC79A45015D /* BattleConfig.swift */; };
 		2742624FFB65816FFD1A2288 /* CareEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A18FEE4293EC8359C15702DB /* CareEngine.swift */; };
+		28029802C36824641E654115 /* ExchangeInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5853824A6CC57FF99E92A5 /* ExchangeInputView.swift */; };
 		2AD017263A759272464A33A9 /* IntegrityCheckerImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3310FBBBCAB9FA906837BAAC /* IntegrityCheckerImpl.swift */; };
 		2D20BF98132CACF68789B027 /* evolution_config.json in Resources */ = {isa = PBXBuildFile; fileRef = 23BC479B9CA0D90B58218EF0 /* evolution_config.json */; };
 		3138C48F9637BB8698E949A2 /* CareActionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 801CF7D67B7FA2A58F977037 /* CareActionsView.swift */; };
@@ -18,20 +19,27 @@
 		3C6C012F54AE60D12248C298 /* MockPeerTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A89CB2EDD771E769C8935DE /* MockPeerTransport.swift */; };
 		406F757487F9254F03F7A818 /* DebugOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D458688AB4CEC5656EF694D /* DebugOverlayView.swift */; };
 		4781E31F8A28CCC353AA27D6 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354F0EEF1C547EFD59130F46 /* AppEnvironment.swift */; };
+		598E73D03CE8957DB9A6BA63 /* TamerDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A7110D8EF0E786871BBD88 /* TamerDetailView.swift */; };
 		5EC02A36FEED62ABF6ABBC35 /* Lineage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146113FFFD4CB0F0F74D585F /* Lineage.swift */; };
 		6524D3ED7A92B8062093BB4D /* EvolutionEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 084A51178F599CF3FAEE7A30 /* EvolutionEngine.swift */; };
 		657F62EA9312F8BCEDA1B064 /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C06C2BC5AFA605A261DD503 /* GameViewModel.swift */; };
 		66A4A832B42CD5FF8F1C4567 /* Roster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4539F5008F1FF4DEF0208322 /* Roster.swift */; };
 		6CEFB22FBDEDAC9FB90C2833 /* PermissionPrimingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D481E3AC5FC2DF6A0631D86 /* PermissionPrimingView.swift */; };
 		6EF9FA02AB38CFAD4D035425 /* RemoteBackstop.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC94FF29B397F1C0C1D989D1 /* RemoteBackstop.swift */; };
+		712C6F6CE3129627E06502CA /* BattleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC30F43F15815B996269AC7 /* BattleViewModel.swift */; };
+		91EC7B3A39140DF1341315C7 /* BattleResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB8C155DDC7C5D955F77733 /* BattleResultView.swift */; };
+		9F9D98A16AA8283940729EFB /* SeededRandom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3232263ABD2CBB1E3B77AB9F /* SeededRandom.swift */; };
 		A18A2332C41E43C1B35612F7 /* KindredApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF560B2CC04DFF530E902C2 /* KindredApp.swift */; };
 		A6975C0039297DA0816EA2AB /* PeerTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 899BFB5BE722421754D4D9F2 /* PeerTransport.swift */; };
+		B40104407C6F05600C962725 /* BattleResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF784ADECEC3C57AF9585F5A /* BattleResolver.swift */; };
 		B66E60D41145E2EDDD7B8BC4 /* CreatureStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB537BB1EA60F8B5B2D39513 /* CreatureStore.swift */; };
 		C427AD198A8E451BA3C2DC75 /* Egg.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3AFE9D91A0BED66E4097B0A /* Egg.swift */; };
 		C83334A6ABA74829C9655BEF /* CreatureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FD4482F48C86C207E7FEAA /* CreatureView.swift */; };
 		CCDDDC6E3D5AD3D3C74A4F25 /* battle_config.json in Resources */ = {isa = PBXBuildFile; fileRef = EF55BA42B9F744E3FF2E6750 /* battle_config.json */; };
 		CF2C796FF531073FDE245667 /* BattleState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62443747729D526730BB2C6B /* BattleState.swift */; };
 		D5EF8500A085805DB16C621A /* BehaviorSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B698112D92A438B9AE64B6E2 /* BehaviorSource.swift */; };
+		DB83ECCEF657E6A55DE5F883 /* RosterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA9177A7BF744C22567C9DB /* RosterView.swift */; };
+		DB9D265DA88E8B5D1C6C5C24 /* BattleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2526D94D3420B0D864B85604 /* BattleView.swift */; };
 		E79737A8BE2F0900FB591133 /* Creature.swift in Sources */ = {isa = PBXBuildFile; fileRef = D332C1A5158F72AB72E6459C /* Creature.swift */; };
 		F575808E3A2F833DC0F2560F /* Tokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70DE74BF6E30E6811ACB4D39 /* Tokens.swift */; };
 		F6351A55D36D91AA6518F7E5 /* CreatureRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA20BEC98A725F3432452FD /* CreatureRenderer.swift */; };
@@ -54,13 +62,18 @@
 		0D2DA1DD7281C5A7A7F1CA32 /* EvolutionConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvolutionConfig.swift; sourceTree = "<group>"; };
 		146113FFFD4CB0F0F74D585F /* Lineage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lineage.swift; sourceTree = "<group>"; };
 		1A89CB2EDD771E769C8935DE /* MockPeerTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPeerTransport.swift; sourceTree = "<group>"; };
+		1AC30F43F15815B996269AC7 /* BattleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleViewModel.swift; sourceTree = "<group>"; };
 		1C06C2BC5AFA605A261DD503 /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
 		1DF560B2CC04DFF530E902C2 /* KindredApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KindredApp.swift; sourceTree = "<group>"; };
 		229D1343185563F1B80E89A1 /* IntegrityChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegrityChecker.swift; sourceTree = "<group>"; };
 		23BC479B9CA0D90B58218EF0 /* evolution_config.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = evolution_config.json; sourceTree = "<group>"; };
+		2526D94D3420B0D864B85604 /* BattleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleView.swift; sourceTree = "<group>"; };
+		2D5853824A6CC57FF99E92A5 /* ExchangeInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeInputView.swift; sourceTree = "<group>"; };
+		3232263ABD2CBB1E3B77AB9F /* SeededRandom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeededRandom.swift; sourceTree = "<group>"; };
 		3310FBBBCAB9FA906837BAAC /* IntegrityCheckerImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegrityCheckerImpl.swift; sourceTree = "<group>"; };
 		354F0EEF1C547EFD59130F46 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
 		4539F5008F1FF4DEF0208322 /* Roster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Roster.swift; sourceTree = "<group>"; };
+		5BA9177A7BF744C22567C9DB /* RosterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RosterView.swift; sourceTree = "<group>"; };
 		62443747729D526730BB2C6B /* BattleState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleState.swift; sourceTree = "<group>"; };
 		6D458688AB4CEC5656EF694D /* DebugOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugOverlayView.swift; sourceTree = "<group>"; };
 		70DE74BF6E30E6811ACB4D39 /* Tokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tokens.swift; sourceTree = "<group>"; };
@@ -69,8 +82,10 @@
 		801CF7D67B7FA2A58F977037 /* CareActionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareActionsView.swift; sourceTree = "<group>"; };
 		899BFB5BE722421754D4D9F2 /* PeerTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeerTransport.swift; sourceTree = "<group>"; };
 		89ABD03E904E24F76088A857 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		98A7110D8EF0E786871BBD88 /* TamerDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TamerDetailView.swift; sourceTree = "<group>"; };
 		9AA20BEC98A725F3432452FD /* CreatureRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatureRenderer.swift; sourceTree = "<group>"; };
 		9D481E3AC5FC2DF6A0631D86 /* PermissionPrimingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionPrimingView.swift; sourceTree = "<group>"; };
+		9DB8C155DDC7C5D955F77733 /* BattleResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleResultView.swift; sourceTree = "<group>"; };
 		A18FEE4293EC8359C15702DB /* CareEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareEngine.swift; sourceTree = "<group>"; };
 		A2FD4482F48C86C207E7FEAA /* CreatureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatureView.swift; sourceTree = "<group>"; };
 		A3D37A9B6A3BFC587A8C3C42 /* KindredTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = KindredTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -78,6 +93,7 @@
 		B698112D92A438B9AE64B6E2 /* BehaviorSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BehaviorSource.swift; sourceTree = "<group>"; };
 		C3FACED82A6DFEC79A45015D /* BattleConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleConfig.swift; sourceTree = "<group>"; };
 		CC94FF29B397F1C0C1D989D1 /* RemoteBackstop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteBackstop.swift; sourceTree = "<group>"; };
+		CF784ADECEC3C57AF9585F5A /* BattleResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleResolver.swift; sourceTree = "<group>"; };
 		D332C1A5158F72AB72E6459C /* Creature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Creature.swift; sourceTree = "<group>"; };
 		DB537BB1EA60F8B5B2D39513 /* CreatureStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatureStore.swift; sourceTree = "<group>"; };
 		EF55BA42B9F744E3FF2E6750 /* battle_config.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = battle_config.json; sourceTree = "<group>"; };
@@ -87,10 +103,13 @@
 		0607BAB15B2AD3EE373E6AA8 /* Engine */ = {
 			isa = PBXGroup;
 			children = (
+				CF784ADECEC3C57AF9585F5A /* BattleResolver.swift */,
+				1AC30F43F15815B996269AC7 /* BattleViewModel.swift */,
 				A18FEE4293EC8359C15702DB /* CareEngine.swift */,
 				084A51178F599CF3FAEE7A30 /* EvolutionEngine.swift */,
 				1C06C2BC5AFA605A261DD503 /* GameViewModel.swift */,
 				3310FBBBCAB9FA906837BAAC /* IntegrityCheckerImpl.swift */,
+				3232263ABD2CBB1E3B77AB9F /* SeededRandom.swift */,
 			);
 			path = Engine;
 			sourceTree = "<group>";
@@ -135,6 +154,9 @@
 		6FF4F4E846C6847F54CE565D /* Battle */ = {
 			isa = PBXGroup;
 			children = (
+				9DB8C155DDC7C5D955F77733 /* BattleResultView.swift */,
+				2526D94D3420B0D864B85604 /* BattleView.swift */,
+				2D5853824A6CC57FF99E92A5 /* ExchangeInputView.swift */,
 			);
 			path = Battle;
 			sourceTree = "<group>";
@@ -227,6 +249,8 @@
 		D1C7FE3714687C3339E82976 /* Roster */ = {
 			isa = PBXGroup;
 			children = (
+				5BA9177A7BF744C22567C9DB /* RosterView.swift */,
+				98A7110D8EF0E786871BBD88 /* TamerDetailView.swift */,
 			);
 			path = Roster;
 			sourceTree = "<group>";
@@ -350,7 +374,11 @@
 			files = (
 				4781E31F8A28CCC353AA27D6 /* AppEnvironment.swift in Sources */,
 				147D10FEC487C92074EE5567 /* BattleConfig.swift in Sources */,
+				B40104407C6F05600C962725 /* BattleResolver.swift in Sources */,
+				91EC7B3A39140DF1341315C7 /* BattleResultView.swift in Sources */,
 				CF2C796FF531073FDE245667 /* BattleState.swift in Sources */,
+				DB9D265DA88E8B5D1C6C5C24 /* BattleView.swift in Sources */,
+				712C6F6CE3129627E06502CA /* BattleViewModel.swift in Sources */,
 				D5EF8500A085805DB16C621A /* BehaviorSource.swift in Sources */,
 				3138C48F9637BB8698E949A2 /* CareActionsView.swift in Sources */,
 				2742624FFB65816FFD1A2288 /* CareEngine.swift in Sources */,
@@ -363,6 +391,7 @@
 				C427AD198A8E451BA3C2DC75 /* Egg.swift in Sources */,
 				3583C71762CEBF5822255D5A /* EvolutionConfig.swift in Sources */,
 				6524D3ED7A92B8062093BB4D /* EvolutionEngine.swift in Sources */,
+				28029802C36824641E654115 /* ExchangeInputView.swift in Sources */,
 				657F62EA9312F8BCEDA1B064 /* GameViewModel.swift in Sources */,
 				099BCE7DCBF6D34F301B320B /* IntegrityChecker.swift in Sources */,
 				2AD017263A759272464A33A9 /* IntegrityCheckerImpl.swift in Sources */,
@@ -374,6 +403,9 @@
 				6CEFB22FBDEDAC9FB90C2833 /* PermissionPrimingView.swift in Sources */,
 				6EF9FA02AB38CFAD4D035425 /* RemoteBackstop.swift in Sources */,
 				66A4A832B42CD5FF8F1C4567 /* Roster.swift in Sources */,
+				DB83ECCEF657E6A55DE5F883 /* RosterView.swift in Sources */,
+				9F9D98A16AA8283940729EFB /* SeededRandom.swift in Sources */,
+				598E73D03CE8957DB9A6BA63 /* TamerDetailView.swift in Sources */,
 				F575808E3A2F833DC0F2560F /* Tokens.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

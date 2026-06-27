@@ -63,6 +63,14 @@ struct ContentRootView: View {
                     #endif
                 }
         }
+        #if DEBUG
+        .sheet(isPresented: $game.showDebugOverlay) {
+            DebugOverlayView()
+                .presentationDetents([.medium, .large])
+                .presentationDragIndicator(.visible)
+                .presentationBackgroundInteraction(.enabled(upThrough: .medium))
+        }
+        #endif
     }
 
     // MARK: - Toolbar items

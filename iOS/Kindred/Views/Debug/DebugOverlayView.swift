@@ -6,131 +6,182 @@ struct DebugOverlayView: View {
     @EnvironmentObject private var game: GameViewModel
     @EnvironmentObject private var env: AppEnvironment
 
-    // Only accessible if the behavior source is the mock
-    private var mock: MockBehaviorSource? {
-        env.behaviorSource as? MockBehaviorSource
-    }
+    private var mock: MockBehaviorSource? { env.behaviorSource as? MockBehaviorSource }
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: KSpacing.sm) {
-                header
-                Divider()
-                axisSection
-                Divider()
-                careSection
-                Divider()
-                timeSection
+            VStack(alignment: .leading, spacing: 0) {
+                sheetHeader
+                    .padding(.horizontal, KSpacing.lg)
+                    .padding(.top, KSpacing.sm)
+
+                DebugSection("CONTROLS") {
+                    timeScaleRow
+                    Divider().padding(.vertical, KSpacing.xs)
+                    actionButtonRow
+                }
+
                 if let mock {
-                    Divider()
-                    presetSection(mock: mock)
-                    Divider()
-                    sliderSection(mock: mock)
+                    DebugSection("BEHAVIOR PRESET") {
+                        Picker("", selection: Binding(
+                            get: { mock.selectedPreset },
+                            set: { mock.selectedPreset = $0 }
+                        )) {
+                            ForEach(BehaviorPreset.allCases) { p in
+                                Text(p.rawValue).tag(p)
+                            }
+                        }
+                        .pickerStyle(.segmented)
+                    }
                 }
-                Divider()
-                actionButtons
+
+                DebugSection("AXES  →  TRENDING: \(game.trendingBranch.rawValue)") {
+                    AxisRow("Vigor",        value: game.creature.traits.vigor)
+                    AxisRow("Nocturnality", value: game.creature.traits.nocturnality)
+                    AxisRow("Bond",         value: game.creature.traits.bond)
+                    AxisRow("Discipline",   value: game.creature.traits.discipline)
+                    AxisRow("Neglect",      value: game.neglect, color: KColor.danger)
+                }
+
+                DebugSection("CARE MISTAKES") {
+                    HStack(spacing: KSpacing.xl) {
+                        statPill("This stage", "\(game.stageCareMistakes)")
+                        statPill("Lifetime",   "\(game.creature.lifetimeCareMistakes)")
+                        statPill("Warning",    "\(game.careWarningLevel)")
+                    }
+                }
+
+                if let mock {
+                    DebugSection("SIGNAL OVERRIDES  (−1 = preset)") {
+                        SignalSlider("Steps",      value: Binding(get: { mock.manualSteps },            set: { mock.manualSteps = $0 }))
+                        SignalSlider("Night Act",  value: Binding(get: { mock.manualNightActivity },    set: { mock.manualNightActivity = $0 }))
+                        SignalSlider("Sleep Reg",  value: Binding(get: { mock.manualSleepRegularity },  set: { mock.manualSleepRegularity = $0 }))
+                        SignalSlider("Bond",       value: Binding(get: { mock.manualInteractionCount }, set: { mock.manualInteractionCount = $0 }))
+                    }
+                }
+
+                Spacer(minLength: KSpacing.xxl)
             }
-            .padding(KSpacing.sm)
         }
-        .frame(maxWidth: 280)
-        .background(.ultraThinMaterial)
-        .clipShape(RoundedRectangle(cornerRadius: KRadius.md))
+        .background(KColor.background)
     }
 
-    // MARK: - Sections
+    // MARK: - Header
 
-    private var header: some View {
-        HStack {
+    private var sheetHeader: some View {
+        HStack(alignment: .firstTextBaseline, spacing: KSpacing.sm) {
             Text("DEBUG")
-                .font(.system(size: 10, weight: .bold, design: .monospaced))
+                .font(.system(size: 11, weight: .black, design: .monospaced))
                 .foregroundStyle(KColor.danger)
-            Spacer()
+            Text("·")
+                .foregroundStyle(KColor.textMuted)
             Text(game.creature.stage.rawValue.uppercased())
-                .font(.system(size: 10, weight: .bold, design: .monospaced))
+                .font(.system(size: 11, weight: .bold, design: .monospaced))
                 .foregroundStyle(KColor.textMuted)
-        }
-    }
-
-    private var axisSection: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            debugLabel("AXES → TRENDING: \(game.trendingBranch.rawValue)")
-            AxisRow("Vigor",        value: game.creature.traits.vigor)
-            AxisRow("Nocturnality", value: game.creature.traits.nocturnality)
-            AxisRow("Bond",         value: game.creature.traits.bond)
-            AxisRow("Discipline",   value: game.creature.traits.discipline)
-            AxisRow("Neglect",      value: game.neglect, color: KColor.danger)
-        }
-    }
-
-    private var careSection: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            debugLabel("CARE MISTAKES")
-            Text("This stage: \(game.stageCareMistakes)  Lifetime: \(game.creature.lifetimeCareMistakes)")
-                .font(.system(size: 11, design: .monospaced))
-                .foregroundStyle(KColor.textSecondary)
-        }
-    }
-
-    private var timeSection: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            debugLabel("TIME SCALE")
-            HStack {
-                Text("\(Int(game.debugTimeScale))×")
-                    .font(.system(size: 11, design: .monospaced))
+            if let branch = game.creature.branch {
+                Text("·")
+                    .foregroundStyle(KColor.textMuted)
+                Text(branch.rawValue)
+                    .font(.system(size: 11, weight: .bold, design: .monospaced))
                     .foregroundStyle(KColor.textSecondary)
-                    .frame(width: 40)
-                Slider(value: $game.debugTimeScale, in: 1...3600, step: 1)
             }
-            Text("Game days: \(String(format: "%.2f", game.gameDaysAlive))")
-                .font(.system(size: 10, design: .monospaced))
-                .foregroundStyle(KColor.textMuted)
-            Text("Awake hrs (adult): \(String(format: "%.1f", game.awakeHoursSinceAdult)) / 72")
-                .font(.system(size: 10, design: .monospaced))
+            Spacer()
+            Text("day \(String(format: "%.2f", game.gameDaysAlive))")
+                .font(.system(size: 11, design: .monospaced))
                 .foregroundStyle(KColor.textMuted)
         }
+        .padding(.bottom, KSpacing.xs)
     }
 
-    private func presetSection(mock: MockBehaviorSource) -> some View {
-        VStack(alignment: .leading, spacing: 4) {
-            debugLabel("BEHAVIOR PRESET")
-            Picker("", selection: Binding(get: { mock.selectedPreset }, set: { mock.selectedPreset = $0 })) {
-                ForEach(BehaviorPreset.allCases) { preset in
-                    Text(preset.rawValue).tag(preset)
+    // MARK: - Time scale
+
+    private var timeScaleRow: some View {
+        VStack(alignment: .leading, spacing: KSpacing.sm) {
+            HStack {
+                Label("Time scale", systemImage: "timer")
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundStyle(KColor.textPrimary)
+                Spacer()
+                Text("\(Int(game.debugTimeScale))×")
+                    .font(.system(size: 13, weight: .bold, design: .monospaced))
+                    .foregroundStyle(KColor.accent)
+                    .frame(minWidth: 44, alignment: .trailing)
+            }
+            Slider(value: $game.debugTimeScale, in: 1...3600, step: 1)
+                .tint(KColor.accent)
+            HStack(spacing: KSpacing.xl) {
+                statPill("Game days", String(format: "%.2f", game.gameDaysAlive))
+                statPill("Awake hrs",  String(format: "%.1f", game.awakeHoursSinceAdult))
+            }
+            // Quick preset buttons for common time scales
+            HStack(spacing: KSpacing.sm) {
+                ForEach([1, 60, 360, 1440, 3600], id: \.self) { scale in
+                    Button("\(scale)×") {
+                        game.debugTimeScale = Double(scale)
+                    }
+                    .font(.system(size: 12, weight: .semibold, design: .monospaced))
+                    .foregroundStyle(Int(game.debugTimeScale) == scale ? .white : KColor.accent)
+                    .padding(.horizontal, KSpacing.sm)
+                    .padding(.vertical, 6)
+                    .background(Int(game.debugTimeScale) == scale ? KColor.accent : KColor.accentSoft)
+                    .clipShape(Capsule())
                 }
             }
-            .pickerStyle(.segmented)
-            .scaleEffect(0.85, anchor: .leading)
         }
     }
 
-    private func sliderSection(mock: MockBehaviorSource) -> some View {
-        VStack(alignment: .leading, spacing: 4) {
-            debugLabel("MANUAL SIGNAL OVERRIDES  (–1 = preset)")
-            SignalSlider("Steps",       value: Binding(get: { mock.manualSteps },            set: { mock.manualSteps = $0 }))
-            SignalSlider("Night Act",   value: Binding(get: { mock.manualNightActivity },    set: { mock.manualNightActivity = $0 }))
-            SignalSlider("Sleep Reg",   value: Binding(get: { mock.manualSleepRegularity },  set: { mock.manualSleepRegularity = $0 }))
-            SignalSlider("Bond",        value: Binding(get: { mock.manualInteractionCount }, set: { mock.manualInteractionCount = $0 }))
-        }
-    }
+    // MARK: - Action buttons
 
-    private var actionButtons: some View {
-        VStack(spacing: KSpacing.xs) {
-            DebugButton("Force daily tick")  { game.debugForceDailyTick() }
-            DebugButton("Force stage check") { game.debugForceStageCheck() }
-            DebugButton("Force death")       { game.debugForceDeath() }
+    private var actionButtonRow: some View {
+        HStack(spacing: KSpacing.sm) {
+            DebugButton("Daily tick",    icon: "sun.max")    { game.debugForceDailyTick() }
+            DebugButton("Stage check",  icon: "arrow.up")   { game.debugForceStageCheck() }
+            DebugButton("Force death",  icon: "xmark.circle", tint: KColor.danger) { game.debugForceDeath() }
         }
     }
 
     // MARK: - Helpers
 
-    private func debugLabel(_ s: String) -> some View {
-        Text(s)
-            .font(.system(size: 9, weight: .semibold, design: .monospaced))
-            .foregroundStyle(KColor.textMuted)
+    private func statPill(_ label: String, _ value: String) -> some View {
+        VStack(spacing: 2) {
+            Text(value)
+                .font(.system(size: 14, weight: .bold, design: .monospaced))
+                .foregroundStyle(KColor.textPrimary)
+            Text(label)
+                .font(.system(size: 10))
+                .foregroundStyle(KColor.textMuted)
+        }
     }
 }
 
-// MARK: - Sub-views
+// MARK: - Section wrapper
+
+private struct DebugSection<Content: View>: View {
+    let title: String
+    @ViewBuilder let content: () -> Content
+
+    init(_ title: String, @ViewBuilder content: @escaping () -> Content) {
+        self.title = title
+        self.content = content
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: KSpacing.sm) {
+            Text(title)
+                .font(.system(size: 9, weight: .semibold, design: .monospaced))
+                .foregroundStyle(KColor.textMuted)
+                .padding(.bottom, 2)
+            content()
+        }
+        .padding(KSpacing.md)
+        .background(KColor.surface)
+        .clipShape(RoundedRectangle(cornerRadius: KRadius.md))
+        .padding(.horizontal, KSpacing.md)
+        .padding(.top, KSpacing.sm)
+    }
+}
+
+// MARK: - Axis row
 
 private struct AxisRow: View {
     let label: String
@@ -142,24 +193,29 @@ private struct AxisRow: View {
     }
 
     var body: some View {
-        HStack(spacing: KSpacing.xs) {
-            Text(label.padding(toLength: 13, withPad: " ", startingAt: 0))
-                .font(.system(size: 10, design: .monospaced))
+        HStack(spacing: KSpacing.sm) {
+            Text(label)
+                .font(.system(size: 12, design: .monospaced))
                 .foregroundStyle(KColor.textSecondary)
+                .frame(width: 100, alignment: .leading)
             GeometryReader { p in
                 ZStack(alignment: .leading) {
-                    RoundedRectangle(cornerRadius: 2).fill(KColor.surfaceDim)
-                    RoundedRectangle(cornerRadius: 2).fill(color)
+                    RoundedRectangle(cornerRadius: 3).fill(KColor.surfaceDim)
+                    RoundedRectangle(cornerRadius: 3).fill(color)
                         .frame(width: p.size.width * CGFloat(value / 100))
+                        .animation(.spring(duration: 0.4), value: value)
                 }
             }
-            .frame(height: 8)
-            Text(String(format: "%5.1f", value))
-                .font(.system(size: 10, design: .monospaced))
+            .frame(height: 10)
+            Text(String(format: "%.1f", value))
+                .font(.system(size: 12, weight: .semibold, design: .monospaced))
                 .foregroundStyle(KColor.textMuted)
+                .frame(width: 38, alignment: .trailing)
         }
     }
 }
+
+// MARK: - Signal slider
 
 private struct SignalSlider: View {
     let label: String
@@ -170,36 +226,49 @@ private struct SignalSlider: View {
     }
 
     var body: some View {
-        HStack(spacing: KSpacing.xs) {
-            Text(label.padding(toLength: 9, withPad: " ", startingAt: 0))
-                .font(.system(size: 10, design: .monospaced))
-                .foregroundStyle(KColor.textSecondary)
+        VStack(alignment: .leading, spacing: 4) {
+            HStack {
+                Text(label)
+                    .font(.system(size: 12, design: .monospaced))
+                    .foregroundStyle(KColor.textSecondary)
+                Spacer()
+                Text(value < 0 ? "preset" : String(format: "%.0f", value))
+                    .font(.system(size: 12, weight: .semibold, design: .monospaced))
+                    .foregroundStyle(value < 0 ? KColor.textMuted : KColor.accent)
+            }
             Slider(value: $value, in: -1...100, step: 1)
-            Text(value < 0 ? " pre" : String(format: "%3.0f", value))
-                .font(.system(size: 10, design: .monospaced))
-                .foregroundStyle(KColor.textMuted)
-                .frame(width: 28)
+                .tint(KColor.accent)
         }
     }
 }
 
+// MARK: - Debug button
+
 private struct DebugButton: View {
     let label: String
+    let icon: String
+    var tint: Color = KColor.accent
     let action: () -> Void
 
-    init(_ label: String, _ action: @escaping () -> Void) {
-        self.label = label; self.action = action
+    init(_ label: String, icon: String, tint: Color = KColor.accent, _ action: @escaping () -> Void) {
+        self.label = label; self.icon = icon; self.tint = tint; self.action = action
     }
 
     var body: some View {
         Button(action: action) {
-            Text(label)
-                .font(.system(size: 11, weight: .medium, design: .monospaced))
-                .foregroundStyle(KColor.accent)
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 6)
-                .background(KColor.accentSoft)
-                .clipShape(RoundedRectangle(cornerRadius: KRadius.sm))
+            VStack(spacing: 4) {
+                Image(systemName: icon)
+                    .font(.system(size: 16, weight: .semibold))
+                Text(label)
+                    .font(.system(size: 11, weight: .medium))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
+            }
+            .foregroundStyle(tint)
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, KSpacing.sm)
+            .background(tint.opacity(0.12))
+            .clipShape(RoundedRectangle(cornerRadius: KRadius.sm))
         }
         .buttonStyle(.plain)
     }

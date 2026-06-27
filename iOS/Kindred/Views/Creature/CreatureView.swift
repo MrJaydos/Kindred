@@ -5,16 +5,7 @@ struct CreatureView: View {
     @State private var bounceTrigger: Int = 0
 
     var body: some View {
-        ZStack(alignment: .topTrailing) {
-            scrollContent
-
-            #if DEBUG
-            if game.showDebugOverlay {
-                DebugOverlayView()
-                    .padding(KSpacing.md)
-            }
-            #endif
-        }
+        scrollContent
         .background(KColor.background)
         // Care-call banner
         .overlay(alignment: .top) {
